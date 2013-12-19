@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  food_timestamp: 1
+  food_id: 
+  user_id: 
+
+two:
+  food_timestamp: 1
+  food_id: 
+  user_id: 

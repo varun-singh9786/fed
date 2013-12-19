@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  event_description: MyText
+  event_timestamp: 1
+  event_rating: 1
+  user_id: 
+
+two:
+  event_description: MyText
+  event_timestamp: 1
+  event_rating: 1
+  user_id: 
