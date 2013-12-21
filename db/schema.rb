@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131219171153) do
+ActiveRecord::Schema.define(version: 20131219165823) do
 
   create_table "event_entries", force: true do |t|
     t.text     "event_description"
@@ -23,24 +23,6 @@ ActiveRecord::Schema.define(version: 20131219171153) do
   end
 
   add_index "event_entries", ["user_id"], name: "index_event_entries_on_user_id"
-
-  create_table "food_entries", force: true do |t|
-    t.integer  "food_timestamp"
-    t.integer  "food_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "food_entries", ["food_id"], name: "index_food_entries_on_food_id"
-  add_index "food_entries", ["user_id"], name: "index_food_entries_on_user_id"
-
-  create_table "foods", force: true do |t|
-    t.string   "food_name"
-    t.string   "food_cook_description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "users", force: true do |t|
     t.string   "name"

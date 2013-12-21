@@ -1,8 +1,6 @@
 Fed::Application.routes.draw do
   resources :users do
     resources :event_entries
-    resources :food_entries do
-      resources :foods
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
