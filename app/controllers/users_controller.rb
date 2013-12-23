@@ -1,15 +1,94 @@
 class UsersController < ApplicationController
   def index
     @users = User.all
+    response = nil
+    
+    
+    if @users
+      response = {users: @users}
+    else 
+      response = ResponseGeneratorController.generate_response(true, 0, "Listing users failed")
+    end
     respond_to do |format|
-      format.json {render json: @users}
+      format.json {render json: response}
     end
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.create(user_params)
+    
+    
+    response = nil
+    if @user && !@user.errors.any?
+      response = ResponseGeneratorController.generate_response(true, 0, "User created successfully")
+    else
+      response = ResponseGeneratorController.generate_response(false, 0, "User creation failed")
+    end
+    
     respond_to do |format|
-      format.json {render json: params}
+      format.json {render json: response}
+    end
+  end
+  
+  def update
+    @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+    
+    
+    response = nil
+    user = params[:user]
+    response = params
+    if @user && !@user.errors.any?
+      if user.has_key?(:name)
+        @user.name = user[:name]
+      end
+      if user.has_key?(:email)
+        @user.email = user[:email]
+      end
+      if @user.save
+        response = {user: @user}
+      else
+        response = ResponseGeneratorController.generate_response(false, 0, "User updation failed")
+      end
+      respond_to do |format|
+        format.json {render json: response}
+      end
+    end
+  end
+  
+  def show
+    @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+    response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+    
+    response = nil
+    if @user && !@user.errors.any?
+      response = {user: @user}
+    else
+      response = ResponseGeneratorController.generate_response(false, 0, "Could not find user")
+    end
+    
+    respond_to do |format|
+      format.json {render json: response}
+    end
+  end
+  
+  def destroy
+    @user = User.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+    
+    response = nil
+    if @user && !@user.errors.any?
+      if @user.destroy
+        response = ResponseGeneratorController.generate_response(true, 0, "User deleted successfully")
+      else
+        response = ResponseGeneratorController.generate_response(false, 0, "Deleting user failed")
+      end
+    end
+    respond_to do |format|
+      format.json {render json: response}
     end
   end
 
