@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     if @user && !@user.errors.any?
       response = ResponseGeneratorController.generate_response(true, 0, "User created successfully")
     else
-      response = ResponseGeneratorController.generate_response(false, 0, "User creation failed")
+      response = ResponseGeneratorController.generate_response(false, 0, "User creation failed because #{@user.errors.full_messages if !@user.errors.nil?}")
     end
 
     respond_to do |format|
