@@ -35,6 +35,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.json {render json: ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")}
     end
+    return
   end
 
     response = nil
@@ -65,6 +66,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.json {render json: ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")}
     end
+    return
   end
 
     response = nil
@@ -85,6 +87,7 @@ class UsersController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     respond_to do |format|
       format.json {render json: ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")}
+      return
     end
   end
 
