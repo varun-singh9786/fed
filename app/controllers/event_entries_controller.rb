@@ -13,7 +13,7 @@ class EventEntriesController < ApplicationController
 		if @user && !@user.errors.any?
 			response = { event_entries: @user.event_entries}
 		else
-			response = ResponseGeneratorController.generate_response(false, 0, "Could not list events. #{@user.errors.full_messages if !@event_entry.nil?}")
+			response = ResponseGeneratorController.generate_response(false, 0, "Could not list events. #{@user.errors.full_messages if !@user.nil?}")
 		end
 		respond_to do |format|
 			format.json {render json: response}
@@ -22,6 +22,7 @@ class EventEntriesController < ApplicationController
 
 	def create
 		response = nil
+		# OPTIMIZE extract the logic of retrieving user and corresponding event_entry
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
