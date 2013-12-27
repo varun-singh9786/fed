@@ -95,7 +95,7 @@ class FoodEntriesController < ApplicationController
 		end
 
 		if @food_entry && !@food_entry.errors.any?
-			response = {food_entry: FoodEntry.to_hash}
+			response = {food_entry: @food_entry.to_hash}
 		else
 			response = ResponseGeneratorController.generate_response(false, 0, "Problem occurred retrieving event. #{@event_entry.errors.full_messages if !@event_entry.nil?}")
 		end
