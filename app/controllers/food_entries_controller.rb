@@ -57,7 +57,7 @@ class FoodEntriesController < ApplicationController
 							response = ResponseGeneratorController.generate_response(false, 0, "Creating an entry for food failed")
 						end
 					end
-					response = {food_entry: food_entry}
+					response = {food_entry: food_entry.to_hash}
 				else
 					response = ResponseGeneratorController.generate_response(false, 0, "Creating an entry for food failed")
 				end
@@ -94,8 +94,8 @@ class FoodEntriesController < ApplicationController
 			return
 		end
 
-		if @event_entry && !@event_entry.errors.any?
-			response = {event_entry: @event_entry}
+		if @food_entry && !@food_entry.errors.any?
+			response = {food_entry: FoodEntry.to_hash}
 		else
 			response = ResponseGeneratorController.generate_response(false, 0, "Problem occurred retrieving event. #{@event_entry.errors.full_messages if !@event_entry.nil?}")
 		end
@@ -107,36 +107,10 @@ class FoodEntriesController < ApplicationController
 
 	def update
 		response = nil
-		begin
-			@user = User.find(params[:user_id])
-		rescue ActiveRecord::RecordNotFound
-			respond_to do |format|
-				format.json {render json: ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")}
-			end
-			return
-		end
-
-		begin
-			@event_entry = @user.event_entries.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			respond_to do |format|
-				format.json {render json: ResponseGeneratorController.generate_response(false, 0, "This event is not recorded")}
-			end
-			return
-		end
-
-		if @event_entry && !@event_entry.errors.any?
-			if @event_entry.update_attributes(event_params)
-				response = ResponseGeneratorController.generate_response(true, 0, "Event updated successfully")
-			else
-				response = ResponseGeneratorController.generate_response(true, 0, "Event updation failed")
-			end
-		else
-			response = ResponseGeneratorController.generate_response(false, 0, "Problem occurred retrieving event. #{@event_entry.errors.full_messages if !@event_entry.nil?}")
-		end
+		response = ResponseGeneratorController.generate_response(false, 0, "This action is not supported yet")
 
 		respond_to do |format|
-			format.json {render json: response}
+			format.json { render json: response}
 		end
 	end
 
@@ -151,7 +125,7 @@ class FoodEntriesController < ApplicationController
 		end
 
 		begin
-			@event_entry = @user.event_entries.find(params[:id])
+			@food_entry = @user.food_entries.find(params[:id])
 		rescue ActiveRecord::RecordNotFound
 			respond_to do |format|
 				format.json {render json: ResponseGeneratorController.generate_response(false, 0, "This event is not recorded")}
@@ -159,11 +133,11 @@ class FoodEntriesController < ApplicationController
 			return
 		end
 
-		if @event_entry && !@event_entry.errors.any?
-			if @event_entry.destroy
-				response = ResponseGeneratorController.generate_response(true, 0, "Event deleted successfully")
+		if @food_entry && !@food_entry.errors.any?
+			if @food_entry.destroy
+				response = ResponseGeneratorController.generate_response(true, 0, "Food entry deleted successfully")
 			else
-				response = ResponseGeneratorController.generate_response(false, 0, "Event could not be deleted. #{@event_entry.errors.full_messages}")
+				response = ResponseGeneratorController.generate_response(false, 0, "Food entry could not be deleted. #{@food_entry.errors.full_messages}")
 			end
 		end
 
