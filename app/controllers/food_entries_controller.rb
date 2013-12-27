@@ -11,7 +11,11 @@ class FoodEntriesController < ApplicationController
 		end
 
 		if @user && !@user.errors.any?
-			response = {food_entries: @user.food_entries}
+			food_entries = []
+			@user.food_entries.each do |food_entry|
+				food_entries << food_entry.to_hash
+			end
+			response = {food_entries: food_entries}
 		else
 			response = ResponseGeneratorController.generate_response(false, 0, "Could not list foods. #{@user.errors.full_messages if !@user.nil?}")
 		end
@@ -38,21 +42,19 @@ class FoodEntriesController < ApplicationController
 					foods = params[:food_entry][:foods]
 					foods.each do |food|
 						new_food = Food.find_by(food_name: food[:food_name])
-						if new_food
-							food_entry.foods << new_food
-						else
-							new_food = Food.create(food_params)
-							if new_food && !new_food.errors.any?
-								if food_entry.save
-									# TODO (food_entry.foods << new_food) Need a better way to do it
-									food_entry.foods << new_food
-								else
-									response = ResponseGeneratorController.generate_response(false, 0, "Creating an entry for food failed")
-								end
-
+						if new_food.nil?
+							new_food = Food.create(food_name: food[:food_name], cooked_description: food[:cooked_description])
+						end
+						if new_food && !new_food.errors.any?
+							if food_entry.save
+								# TODO (food_entry.foods << new_food) Need a better way to do it
+								food_entry.foods << new_food
 							else
 								response = ResponseGeneratorController.generate_response(false, 0, "Creating an entry for food failed")
 							end
+
+						else
+							response = ResponseGeneratorController.generate_response(false, 0, "Creating an entry for food failed")
 						end
 					end
 					response = {food_entry: food_entry}
@@ -84,7 +86,7 @@ class FoodEntriesController < ApplicationController
 		end
 
 		begin
-			@event_entry = @user.event_entries.find(params[:id])
+			@food_entry = @user.food_entries.find(params[:id])
 		rescue ActiveRecord::RecordNotFound
 			respond_to do |format|
 				format.json {render json: ResponseGeneratorController.generate_response(false, 0, "This event is not recorded")}
