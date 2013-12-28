@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131226100025) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "event_entries", force: true do |t|
     t.text     "event_description"
     t.integer  "event_timestamp"
@@ -22,7 +25,7 @@ ActiveRecord::Schema.define(version: 20131226100025) do
     t.datetime "updated_at"
   end
 
-  add_index "event_entries", ["user_id"], name: "index_event_entries_on_user_id"
+  add_index "event_entries", ["user_id"], name: "index_event_entries_on_user_id", using: :btree
 
   create_table "food_entries", force: true do |t|
     t.integer  "timestamp"
@@ -31,15 +34,15 @@ ActiveRecord::Schema.define(version: 20131226100025) do
     t.integer  "user_id"
   end
 
-  add_index "food_entries", ["user_id"], name: "index_food_entries_on_user_id"
+  add_index "food_entries", ["user_id"], name: "index_food_entries_on_user_id", using: :btree
 
   create_table "food_entries_foods", id: false, force: true do |t|
     t.integer "food_id"
     t.integer "food_entry_id"
   end
 
-  add_index "food_entries_foods", ["food_entry_id"], name: "index_food_entries_foods_on_food_entry_id"
-  add_index "food_entries_foods", ["food_id"], name: "index_food_entries_foods_on_food_id"
+  add_index "food_entries_foods", ["food_entry_id"], name: "index_food_entries_foods_on_food_entry_id", using: :btree
+  add_index "food_entries_foods", ["food_id"], name: "index_food_entries_foods_on_food_id", using: :btree
 
   create_table "foods", force: true do |t|
     t.string   "food_name"
