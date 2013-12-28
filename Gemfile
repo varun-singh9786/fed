@@ -5,7 +5,7 @@ gem 'rails', '4.0.0'
 
 group :development, :test do
 	# Use sqlite3 as the database for Active Record
-	gem 'sqlite3'
+	# gem 'sqlite3'
 end
 
 # Use SCSS for stylesheets
@@ -34,9 +34,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'pg'
+
 group :production do
 	gem 'rails_12factor'
-	gem 'pg'
+	
 end
 
 # Use ActiveModel has_secure_password
