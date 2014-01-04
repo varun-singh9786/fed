@@ -14,13 +14,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
-
     response = nil
+    begin
+      @user = User.find_by!(email: params[:user][:email])
+    rescue ActiveRecord::RecordNotFound
+      @user = User.create(user_params)
+    end
+
     if @user && !@user.errors.any?
       response = {user: @user}
     else
-      response = ResponseGeneratorController.generate_response(false, 0, "User creation failed because #{@user.errors.full_messages if !@user.nil?}")
+      response = ResponseGeneratorController.generate_response(false, 0, "User creation failed. #{@user.errors.full_messages if !@user.nil?}")
     end
 
     respond_to do |format|
