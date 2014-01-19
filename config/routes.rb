@@ -11,7 +11,7 @@ Fed::Application.routes.draw do
   delete 'users/:user_id/food_entries/:id/:remember_token' => 'food_entries#destroy'
   
   #event_entries
-  get 'users/:user_id/event_entries/:remember_token' => 'event_entries#index'
+  get 'users/:user_id/event_entries/:page/:count/:remember_token' => 'event_entries#index'
   get 'users/:user_id/event_entries/:id/:remember_token' => 'event_entries#show'
   delete 'users/:user_id/event_entries/:id/:remember_token' => 'event_entries#destroy'
 

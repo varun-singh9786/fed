@@ -8,9 +8,8 @@ class EventEntriesController < ApplicationController
 		else
 			if correct_user(params[:user_id], params[:remember_token])
 				if @user && !@user.errors.any?
-					page = params[:page]
-					count = params[:count]
-					response = { event_entries: @user.event_entries}
+					
+					response = { event_entries: @user.event_entries.paginate(page: params[:page], per_page: params[:count])}
 				else
 					response = ResponseGeneratorController.generate_response(false, 0, "Could not list events. #{@user.errors.full_messages if !@user.nil?}")
 				end

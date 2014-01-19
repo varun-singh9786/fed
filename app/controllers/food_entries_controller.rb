@@ -8,11 +8,13 @@ class FoodEntriesController < ApplicationController
 		else
 			if correct_user(params[:user_id], params[:remember_token])
 				if @user && !@user.errors.any?
-					food_entries = []
-					@user.food_entries.each do |food_entry|
-						food_entries << food_entry.to_hash
+					response_food_entries = []
+					fetched_food_entries = @user.food_entries.paginate(page: params[:page], per_page: params[:count])
+					fetched_food_entries.each do |food_entry|
+						#TODO need a better way to create the response
+						response_food_entries << food_entry.to_hash
 					end
-					response = {food_entries: food_entries}
+					response = {food_entries: response_food_entries}
 				else
 					response = ResponseGeneratorController.generate_response(false, 0, "Could not list foods. #{@user.errors.full_messages if !@user.nil?}")
 				end
