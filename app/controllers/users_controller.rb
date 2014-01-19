@@ -1,16 +1,18 @@
 class UsersController < ApplicationController
 
+  #TODO enable when admin control is implemented
   def index
-    @users = User.all
-    response = nil
-    if @users
-      response = {users: @users}
-    else
-      response = ResponseGeneratorController.generate_response(true, 0, "Listing users failed")
-    end
-    respond_to do |format|
-      format.json {render json: response}
-    end
+    render json: ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
+    # @users = User.all
+    # response = nil
+    # if @users
+    #   response = {users: @users}
+    # else
+    #   response = ResponseGeneratorController.generate_response(true, 0, "Listing users failed")
+    # end
+    # respond_to do |format|
+    #   format.json {render json: response}
+    # end
   end
 
   def create
@@ -60,11 +62,12 @@ class UsersController < ApplicationController
             @user.email = user[:email]
           end
           if @user.save
-            response = {user: @user}
+            response = {user: @user, except: [:remember_token]}
           else
-            response = ResponseGeneratorController.generate_response(false, 0, "User updation failed")
+            response = ResponseGeneratorController.generate_response(false, 0, "User updation failed. #{@user.errors.full_messages if !@user.nil?}")
           end
-          
+        else
+          response = ResponseGeneratorController.generate_response(false, 0, "User updation failed. #{@user.errors.full_messages if !@user.nil?}")    
         end
       else
         response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action.")
@@ -95,7 +98,7 @@ class UsersController < ApplicationController
       end
     end
     respond_to do |format|
-      format.json {render json: response}
+      format.json {render json: response, except: [:remember_token]}
     end
   end
 
@@ -114,6 +117,8 @@ class UsersController < ApplicationController
             response = ResponseGeneratorController.generate_response(false, 0, "Deleting user failed")
           end
         end
+      else
+        response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
       end
       
     end

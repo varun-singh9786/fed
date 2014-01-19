@@ -8,11 +8,13 @@ class ApplicationController < ActionController::Base
 			user = User.find_by(id: id)
 		rescue ActiveRecord::RecordNotFound
 			false
+		else 
+			if (user.remember_token == User.encrypt(remember_token))
+				true
+			else
+				false
+			end
 		end
-		if (user.remember_token == User.encrypt(remember_token))
-			true
-		else
-			false
-		end
+		
 	end
 end

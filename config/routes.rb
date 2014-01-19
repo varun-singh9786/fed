@@ -1,8 +1,28 @@
 Fed::Application.routes.draw do
+
+  #users
+  get 'users/:remember_token' => 'users#index'
+  get 'users/:id/:remember_token' => 'users#show'
+  delete 'users/:id/:remember_token' => 'users#destroy'
+
+  #food_entries
+  get 'users/:user_id/food_entries/:page/:count/:remember_token' => 'food_entries#index'
+  get 'users/:user_id/food_entries/:id/:remember_token' => 'food_entries#show'
+  delete 'users/:user_id/food_entries/:id/:remember_token' => 'food_entries#destroy'
+  
+  #event_entries
+  get 'users/:user_id/event_entries/:remember_token' => 'event_entries#index'
+  get 'users/:user_id/event_entries/:id/:remember_token' => 'event_entries#show'
+  delete 'users/:user_id/event_entries/:id/:remember_token' => 'event_entries#destroy'
+
+
   resources :users do
     resources :event_entries
     resources :food_entries
   end
+
+
+  #With remember_token
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
