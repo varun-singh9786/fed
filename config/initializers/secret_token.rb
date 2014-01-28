@@ -9,4 +9,8 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Fed::Application.config.secret_key_base = '9e9c3df3f623df029570d0df2d4526596d2e235c18ee9df65f2fa14d47b5c938248ec4e40294963da22c35034902d5f972b7c5098b0a57f7983b688130d14ab0'
+Fed::Application.config.secret_key_base = if Rails.env.development? or Rails.env.testing?
+	'9e9c3df3f623df029570d0df2d4526596d2e235c18ee9df65f2fa14d47b5c938248ec4e40294963da22c35034902d5f972b7c5098b0a57f7983b688130d14ab0'
+else
+	ENV['SECRET_TOKEN']
+end
