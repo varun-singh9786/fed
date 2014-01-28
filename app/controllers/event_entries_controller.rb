@@ -4,7 +4,7 @@ class EventEntriesController < ApplicationController
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
-			response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+			response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action.")
 		else
 			if correct_user(params[:user_id], params[:remember_token])
 				if @user && !@user.errors.any?
@@ -29,7 +29,7 @@ class EventEntriesController < ApplicationController
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
-			response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+			response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
 		else
 			if correct_user(params[:user_id], params[:event_entry][:remember_token])
 				if @user && !@user.errors.any?
@@ -59,7 +59,7 @@ class EventEntriesController < ApplicationController
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
-			response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+			response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
 		else
 			if correct_user(params[:user_id], params[:remember_token])
 				begin
@@ -90,7 +90,7 @@ class EventEntriesController < ApplicationController
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
-			response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+			response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
 		else
 			if correct_user(params[:user_id], params[:event_entry][:remember_token])
 				begin
@@ -121,7 +121,7 @@ class EventEntriesController < ApplicationController
 		begin
 			@user = User.find(params[:user_id])
 		rescue ActiveRecord::RecordNotFound
-			response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+			response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action")
 		else
 			if correct_user(params[:user_id], params[:remember_token])
 				begin

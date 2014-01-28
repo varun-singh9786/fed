@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     begin
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      response =  ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+      response =  ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action.")
     else
       if correct_user(params[:id], params[:user][:remember_token])
         user = params[:user]
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
     begin
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+      response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action.")
     else
       if correct_user(params[:id], params[:remember_token])
         if @user && !@user.errors.any?
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
     begin
       @user = User.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      response = ResponseGeneratorController.generate_response(false, 0, "User doesn't exist")
+      response = ResponseGeneratorController.generate_response(false, 0, "You are not authorized for this action.")
     else
       if correct_user(params[:id], params[:remember_token])
         if @user && !@user.errors.any?
