@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       if params[:user].has_key?(:remember_token)
         @user.remember_token = User.encrypt(params[:user][:remember_token])
         if @user.save
-          response = {user: {id: @user.id, name: @user.name, email: @user.email, remember_token: params[:user][:remember_token]}}
+          response = {user: @user.to_hash(params[:user][:remember_token])}
         else 
           response = ResponseGeneratorController.generate_response(false, 0, "User creation failed. #{@user.errors.full_messages if !@user.nil?}")
         end
@@ -62,7 +62,7 @@ class UsersController < ApplicationController
             @user.email = user[:email]
           end
           if @user.save
-            response = {user: @user, except: [:remember_token]}
+            response = {user: @user.to_hash(params[:user][:remember_token])}
           else
             response = ResponseGeneratorController.generate_response(false, 0, "User updation failed. #{@user.errors.full_messages if !@user.nil?}")
           end
