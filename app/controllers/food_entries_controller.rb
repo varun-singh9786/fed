@@ -14,7 +14,7 @@ class FoodEntriesController < ApplicationController
 						#TODO need a better way to create the response
 						response_food_entries << food_entry.to_hash
 					end
-					response = {food_entries: response_food_entries}
+					response = {food_entries: response_food_entries, total_count: @user.food_entries.count}
 				else
 					response = ResponseGeneratorController.generate_response(false, 0, "Could not list foods. #{@user.errors.full_messages if !@user.nil?}")
 				end
