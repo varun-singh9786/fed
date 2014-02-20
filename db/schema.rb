@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140113172406) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "event_entries", force: true do |t|
     t.text     "event_description"
     t.integer  "event_timestamp"
